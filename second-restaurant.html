@@ -1,0 +1,319 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="Restaurant operations leader who builds the software operations run on. Demand forecasting validated at 92.1 percent daily accuracy over a 44-week rolling-origin backtest, and the agentic tooling behind it."><meta property="og:type" content="website"><meta property="og:site_name" content="Peter J. Wyatt"><meta property="og:title" content="What the second restaurant broke"><meta property="og:description" content="Restaurant operations leader who builds the software operations run on. Demand forecasting validated at 92.1 percent daily accuracy over a 44-week rolling-origin backtest, and the agentic tooling behind it."><meta property="og:url" content="https://peterjwyatt.com/second-restaurant.html"><meta property="og:image" content="https://peterjwyatt.com/assets/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Peter J. Wyatt, restaurant operations and the software operations run on"><meta name="twitter:card" content="summary_large_image"><title>What the second restaurant broke</title><style>
+@font-face{font-family:Archivo;src:url(assets/archivo.woff2)format('woff2');
+font-weight:400 700;font-display:swap;font-style:normal}
+:root{
+--steel:#f1f3f2;--iron:#19211e;--slate:#5b6661;--rule:#d3d9d6;--sheet:#e7ebe9;
+--ontime:#1c6b45;--warn:#a8690f}
+@media(prefers-color-scheme:dark){:root{
+--steel:#141816;--iron:#e9edea;--slate:#98a39e;--rule:#2b332f;--sheet:#1b211e;
+--ontime:#58b585;--warn:#d79b43}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--steel);color:var(--iron);
+font-family:Archivo,"Helvetica Neue",Arial,sans-serif;font-size:17px;line-height:1.62;
+font-weight:400;-webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding:0 26px}
+a{color:var(--iron);text-decoration-color:var(--ontime);text-decoration-thickness:2px;
+text-underline-offset:3px}
+a:hover{color:var(--ontime)}
+:focus-visible{outline:2px solid var(--ontime);outline-offset:3px}
+
+/* masthead ---------------------------------------------------------------- */
+.top{border-bottom:1px solid var(--rule)}
+.top .wrap{display:flex;align-items:baseline;gap:26px;padding:20px 26px;flex-wrap:wrap}
+.top .me{font-weight:600;font-size:16px;letter-spacing:-.01em;text-decoration:none}
+.top nav{margin-left:auto;display:flex;gap:22px;flex-wrap:wrap}
+.top nav a{font-size:14.5px;color:var(--slate);text-decoration:none}
+.top nav a:hover{color:var(--ontime)}
+.top nav a.on{color:var(--iron)}
+
+main{padding:44px 0 86px}
+h1{font-size:clamp(29px,4.6vw,43px);line-height:1.1;letter-spacing:-.025em;
+font-weight:600;margin:0 0 20px}
+h2{font-size:21px;line-height:1.3;letter-spacing:-.015em;font-weight:600;margin:46px 0 12px}
+h3{font-size:17.5px;font-weight:600;margin:28px 0 8px}
+p,ul,ol{max-width:68ch}
+p{margin:0 0 17px}
+ul,ol{margin:0 0 17px;padding-left:22px}
+li{margin:0 0 6px}
+strong{font-weight:600}
+hr{border:0;border-top:1px solid var(--rule);margin:44px 0}
+blockquote{margin:0 0 17px;padding-left:17px;border-left:2px solid var(--warn);color:var(--slate)}
+code{font-size:15px;background:var(--sheet);padding:1px 5px;border-radius:3px}
+pre{background:var(--sheet);border:1px solid var(--rule);padding:14px 16px;
+overflow-x:auto;font-size:14px;line-height:1.5;margin:0 0 17px;border-radius:3px}
+pre code{background:none;padding:0}
+table{width:100%;border-collapse:collapse;margin:0 0 20px;display:block;overflow-x:auto;
+font-size:15px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{color:var(--slate);font-size:14px;font-weight:600}
+
+/* hero: staff photo beside the name, like an ID badge rather than an avatar - */
+.badge{display:flex;gap:20px;align-items:center;margin:0 0 22px}
+.badge img{width:104px;height:104px;flex:0 0 104px;border-radius:2px;
+border:1px solid var(--rule);object-fit:cover}
+.badge h1{margin:0}
+@media(max-width:620px){
+.badge{gap:16px}.badge img{width:74px;height:74px;flex:0 0 74px}
+/* stack label over bar, and let the figures wrap - nowrap in a fixed grid
+   column was pushing the document wider than the screen */
+.grain{grid-template-columns:1fr;gap:4px 0}
+.grain dt{margin:12px 0 2px}
+.grain dd{align-items:flex-start}
+.grain dd{flex-wrap:wrap;gap:8px}
+.num{white-space:normal}
+.track{min-width:0;flex:1 1 55%}
+.top nav{margin-left:0;width:100%;gap:18px;flex-wrap:wrap}
+.artifact{padding:16px 15px}
+}
+
+/* the artifact: real measured error, zero-based ------------------------------ */
+.artifact{margin:26px 0 30px;padding:20px 22px;background:var(--sheet);
+border:1px solid var(--rule);border-radius:3px;max-width:68ch}
+.artifact .what{font-size:15px;font-weight:600;margin:0 0 3px}
+.artifact .how{font-size:14px;color:var(--slate);margin:0 0 18px;max-width:58ch}
+.grain{display:grid;grid-template-columns:auto 1fr;gap:10px 14px;align-items:center;
+font-variant-numeric:tabular-nums}
+.grain dt{font-size:14.5px;color:var(--slate);white-space:nowrap;margin:0}
+.grain dd{margin:0;display:flex;align-items:center;gap:10px}
+.track{flex:1;height:13px;background:var(--steel);border:1px solid var(--rule);
+border-radius:2px;overflow:hidden;min-width:70px}
+.fill{display:block;height:100%;width:var(--w);background:var(--warn);opacity:.85}
+.num{font-size:14px;white-space:nowrap}
+.num b{font-weight:600}
+.num .acc{color:var(--ontime)}
+.reads{font-size:14px;color:var(--slate);margin:16px 0 0;max-width:58ch}
+
+/* the one orchestrated motion: bars draw once on load */
+@media(prefers-reduced-motion:no-preference){
+.fill{animation:draw .7s cubic-bezier(.22,.68,.3,1) both}
+.grain dd:nth-of-type(1) .fill{animation-delay:.12s}
+.grain dd:nth-of-type(2) .fill{animation-delay:.21s}
+.grain dd:nth-of-type(3) .fill{animation-delay:.30s}
+@keyframes draw{from{width:0}to{width:var(--w)}}
+}
+
+/* case-study bands: hairlines, not a card kit ------------------------------- */
+.band{border-top:1px solid var(--rule);padding:26px 0 4px}
+.band h2{margin:0 0 10px}
+.band p{color:var(--slate);font-size:16px}
+.band .go{font-weight:600;font-size:15.5px}
+.honest{color:var(--warn);font-weight:600;font-size:14px;margin:0 0 8px}
+
+/* contact ------------------------------------------------------------------ */
+.reach{border-top:1px solid var(--rule);margin:46px 0 0;padding:26px 0 0}
+.reach h2{margin:0 0 8px}
+.reach .addr{font-size:clamp(19px,2.8vw,25px);font-weight:600;letter-spacing:-.015em;
+display:inline-block;margin:4px 0 6px}
+.reach p{color:var(--slate);font-size:15.5px}
+
+.kicker{font-size:14px;color:var(--slate);font-weight:600;margin:0 0 10px}
+
+/* on the home page each section sits under a hairline, so the two case studies
+   read as bands of a single document rather than a kit of identical cards */
+.home h2{border-top:1px solid var(--rule);padding-top:26px}
+.home .reach h2{border-top:0;padding-top:0}
+
+.foot{border-top:1px solid var(--rule)}
+.foot .wrap{padding:20px 26px 46px;color:var(--slate);font-size:13.5px}
+</style></head><body><div class=top><div class=wrap><a class=me href='index.html'>Peter J. Wyatt</a><nav><a href="forecasting.html">Forecasting</a><a href="second-restaurant.html" class=on>Second restaurant</a><a href="agentic.html">Agentic tooling</a><a href="about.html">About</a></nav></div></div><main class=page><div class=wrap><p class=kicker>Case study</p><h1 id="what-the-second-restaurant-broke">What the second restaurant
+broke</h1>
+<p>A forecasting and reporting system that worked at one restaurant, and
+what happened when a second one was added. Every assumption that failed
+had looked correct for months, because one restaurant cannot tell you
+which of its habits are facts.</p>
+<h2 id="the-thing-i-got-wrong">The thing I got wrong</h2>
+<p>I built the operational tooling against the restaurant I knew best.
+It read the daily sales export, produced the forecast the schedule is
+built from, and replaced a reporting cycle that had been compiled by
+hand. It was measured, it worked, and I believed the machinery was the
+reason it worked.</p>
+<p>Then a second restaurant was added, and the honest summary is this: a
+meaningful share of what I had built was not modelling restaurants. It
+was modelling one restaurant, and some of it was actively making the
+second one worse.</p>
+<p>None of what follows was found by code review. All of it was found by
+pointing the same system at a second building.</p>
+<h2
+id="the-vocabulary-bug-that-would-have-forecast-two-weeks-of-zero-sales">The
+vocabulary bug that would have forecast two weeks of zero sales</h2>
+<p>The forecast adjusts for school calendars, because school state
+genuinely moves a quick-service restaurant's day. The first restaurant's
+calendar writes <code>No School</code> for a closure. The second one
+writes <code>Christmas Break</code> across twelve days and
+<code>Thanksgiving Break</code> across six.</p>
+<p>The holiday matcher saw <code>Christmas Break</code> and matched
+Christmas Day, which carries a closure factor of 0.0, because on the
+actual holiday the restaurant is shut. Applied to a twelve-day school
+break, that is a forecast of <strong>two weeks of zero sales</strong> at
+a restaurant that was open and trading the entire time.</p>
+<p>It never reached a schedule, because it was caught while the second
+restaurant's history was being graded. But it had been sitting in
+working, tested, validated code for months. It could not fire at the
+first restaurant, because the first restaurant never used the word.</p>
+<p>The same class of mistake sat next to it: one restaurant records a
+weather closure as <code>Snow Day</code>, the other as
+<code>Ice storm</code>. Same weather, different vocabulary, and the
+second spelling matched no pattern at all.</p>
+<h2 id="the-machinery-was-hurting-one-of-the-two-restaurants">The
+machinery was hurting one of the two restaurants</h2>
+<p>The forecast blends two estimators: a factor model that decomposes a
+day into its drivers, and a plain median of the last eight matching
+weekdays. One line of arithmetic, one weight.</p>
+<p>I assumed the factor model was the valuable half and the median was
+the floor it beat. Measured across both restaurants, the weight that
+produces the best accuracy is not the same at each, and they do not
+merely differ by a little. They want <strong>opposite</strong>
+weights.</p>
+<table>
+<thead>
+<tr>
+<th>Weight on the factor model</th>
+<th>First restaurant</th>
+<th>Second restaurant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.00, pure median</td>
+<td>80.00%</td>
+<td><strong>86.57%</strong></td>
+</tr>
+<tr>
+<td>0.25</td>
+<td>81.07%</td>
+<td><strong>86.76%</strong></td>
+</tr>
+<tr>
+<td>0.50</td>
+<td>81.74%</td>
+<td>86.66%</td>
+</tr>
+<tr>
+<td>0.75</td>
+<td><strong>81.96%</strong></td>
+<td>86.37%</td>
+</tr>
+<tr>
+<td>1.00, pure factor model</td>
+<td>81.79%</td>
+<td>85.89%</td>
+</tr>
+</tbody>
+</table>
+<p>The first restaurant leans on the factor decomposition, because
+school state really does swing its sales. The second leans on the
+median, because conditioning on school state there mostly throws away
+data.</p>
+<p>The line that is hard to write is the bottom right. At the second
+restaurant, the factor model alone scores <strong>85.89 percent against
+a plain median's 86.57 percent</strong>. The machinery I was most proud
+of was losing to the simplest possible estimator, and it had been losing
+from the first day it was pointed at that building. With one restaurant
+I had no way to know. The weight now lives in configuration, per
+restaurant, because there is no single right answer to put in the
+code.</p>
+<h2 id="a-feature-i-built-measured-and-deleted">A feature I built,
+measured, and deleted</h2>
+<p>A reasonable proposal came out of a planning meeting: the holiday
+forecast uses last year's analog, and a multi-year average captures
+shape better, so take the shape from earlier years and the level from
+last year. Each approach is thin exactly where the other is strong.</p>
+<p>I built it and graded it against 304 holiday rows:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Holiday hourly</th>
+<th>Ordinary weeks</th>
+<th>All in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Shipped analog</td>
+<td><strong>78.16%</strong></td>
+<td>86.18%</td>
+<td><strong>85.91%</strong></td>
+</tr>
+<tr>
+<td>Earlier years' shape at last year's level</td>
+<td>77.66%</td>
+<td>86.18%</td>
+<td>85.89%</td>
+</tr>
+</tbody>
+</table>
+<p>It loses. Not by much, and not ambiguously. The blend preserves the
+day total by construction and only moves money between hours, so the
+question was narrow: is a five-year average shape a better within-day
+distributor than last year's actual shape? No, by about half a
+point.</p>
+<p>It should have been predictable, and the reason is the useful part.
+Averaging five years of shape assumes the shape held still. It did not.
+A late-evening hour that used to carry real volume at that restaurant
+now carries a small fraction of it. An averaged shape averages across a
+restaurant that changed; last year's shape reflects the restaurant as it
+currently is.</p>
+<p>The code was removed rather than parked behind a flag, and the
+measurement was written up where the proposal would come back, so that
+the next person to have the same good idea finds the answer instead of
+rebuilding it.</p>
+<h2 id="a-restaurant-we-do-not-operate-was-adopted-as-ours">A restaurant
+we do not operate was adopted as ours</h2>
+<p>The ingestion side produced the most alarming failure. The reporting
+export began returning a third restaurant, one the group does not
+operate, alongside the two it does.</p>
+<p>The classifier answered <code>?</code> for that document. It answers
+<code>?</code> for a document that names no restaurant at all, too, and
+the batch logic adopts a <code>?</code> into the batch's restaurant
+whenever exactly one is named. So a foreign restaurant's file sitting
+next to one of ours was quietly absorbed as ours.</p>
+<p>A checksum did catch the specific pairing that was tried, but only by
+luck: the two restaurants' sales differed enough to trip a day-total
+comparison. Worse, it reported the problem as a mismatch between the
+hourly figures and the day-part total, which sends an operator hunting
+for a bad export or a point-of-sale fault rather than telling them they
+had grabbed the wrong restaurant entirely.</p>
+<p>Two fixes, and the second matters more than the first. A named
+foreign restaurant is now refused by its own identifier. And
+<code>not ours</code> and <code>not stated</code> stopped being the same
+answer, because collapsing them is what let the adoption happen.</p>
+<h2 id="what-this-means-for-an-implementation-role">What this means for
+an implementation role</h2>
+<p>This is the case study I would want read, because the work is the
+job.</p>
+<p>An implementation consultant's entire function is the second
+restaurant. The product works at the customers it already has. The
+question on every new account is which of its apparent truths were facts
+about the software and which were facts about the last customer, and the
+answer is never available from inside the existing deployment. It
+arrives as a vocabulary difference, a configuration that has no single
+correct value, or a default that is quietly wrong for this site.</p>
+<p>Three habits came out of this that I would bring to someone else's
+product:</p>
+<ul>
+<li><strong>Per-site configuration beats a better global
+default.</strong> Two restaurants wanted opposite weights. There was no
+number I could have picked that served both, and looking harder at one
+of them would not have revealed it.</li>
+<li><strong>An error message should name the cause, not the
+symptom.</strong> "Hours do not match the day total" sent people toward
+the wrong investigation. "This file is from a restaurant you do not
+operate" ends it.</li>
+<li><strong>Measure the thing you are proud of against the dumbest
+alternative.</strong> If the sophisticated path cannot beat a median,
+the median ships. I would rather find that in a backtest than have a
+customer find it in their numbers.</li>
+</ul>
+<h2 id="scope-and-honesty">Scope and honesty</h2>
+<p>The accuracy figures here are percentages from graded backtests on
+real operating history. They carry no revenue, no location and no
+identifying detail, and the tables are the measurements as recorded,
+including the ones where my own work lost.</p>
+<p>Components of this system have been used in live restaurant
+operations. The full platform is not in production, has no customers,
+and is not a commercial product. The holiday blend described above was
+never shipped at all. I am describing engineering and operations
+judgment, not a sold piece of software.</p>
+</div></main><div class=foot><div class=wrap>Restaurant operations leader who builds the software operations run on</div></div></body></html>
