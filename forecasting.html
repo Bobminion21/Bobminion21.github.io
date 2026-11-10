@@ -1,53 +1,122 @@
 <!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=robots content='noindex,nofollow'><title>Forecasting restaurant demand</title><style>
-:root{--bg:#fdfdfc;--fg:#1b1c1e;--dim:#5f6672;--line:#e6e6e3;--accent:#1b4db3;--card:#f5f5f2;--rule:#d8d8d4}
-@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#101216;--fg:#e8e8e6;--dim:#99a0ab;--line:#232730;--accent:#8fb0ff;--card:#171a21;--rule:#2a2f3a}}
+@font-face{font-family:Archivo;src:url(assets/archivo.woff2)format('woff2');
+font-weight:400 700;font-display:swap;font-style:normal}
+:root{
+--steel:#f1f3f2;--iron:#19211e;--slate:#5b6661;--rule:#d3d9d6;--sheet:#e7ebe9;
+--ontime:#1c6b45;--warn:#a8690f}
+@media(prefers-color-scheme:dark){:root{
+--steel:#141816;--iron:#e9edea;--slate:#98a39e;--rule:#2b332f;--sheet:#1b211e;
+--ontime:#58b585;--warn:#d79b43}}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--fg);
-font:17px/1.68 ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;}
-.wrap{max-width:720px;margin:0 auto;padding:0 24px}
-header{border-bottom:1px solid var(--line);margin-bottom:46px}
-header .wrap{display:flex;align-items:baseline;gap:22px;padding-top:26px;padding-bottom:20px;flex-wrap:wrap}
-header a.home{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-weight:650;
-font-size:17px;color:var(--fg);text-decoration:none;letter-spacing:-.01em}
-nav{margin-left:auto;display:flex;gap:20px}
-nav a{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:14.5px;
-color:var(--dim);text-decoration:none}
-nav a:hover,header a.home:hover{color:var(--accent)}
-main{padding-bottom:90px}
-.kicker{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:12px;
-letter-spacing:.09em;text-transform:uppercase;color:var(--dim);margin:0 0 10px}
-h1{font-size:33px;line-height:1.22;letter-spacing:-.02em;margin:0 0 22px;font-weight:650}
-h2{font-size:21px;margin:40px 0 12px;letter-spacing:-.01em;font-weight:650}
-h3{font-size:17.5px;margin:28px 0 8px;font-weight:650}
-p{margin:0 0 18px}
-ul,ol{margin:0 0 18px;padding-left:24px}
-li{margin:0 0 7px}
-blockquote{margin:0 0 18px;padding-left:18px;border-left:2px solid var(--rule);color:var(--dim)}
-hr{border:0;border-top:1px solid var(--line);margin:40px 0}
-a{color:var(--accent);text-underline-offset:2px}
-strong{font-weight:650}
-code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;background:var(--card);
-padding:1.5px 5px;border-radius:4px}
-pre{background:var(--card);border:1px solid var(--line);border-radius:7px;padding:14px 16px;
-overflow-x:auto;font-size:14px;line-height:1.5;margin:0 0 18px}
+body{margin:0;background:var(--steel);color:var(--iron);
+font-family:Archivo,"Helvetica Neue",Arial,sans-serif;font-size:17px;line-height:1.62;
+font-weight:400;-webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding:0 26px}
+a{color:var(--iron);text-decoration-color:var(--ontime);text-decoration-thickness:2px;
+text-underline-offset:3px}
+a:hover{color:var(--ontime)}
+:focus-visible{outline:2px solid var(--ontime);outline-offset:3px}
+
+/* masthead ---------------------------------------------------------------- */
+.top{border-bottom:1px solid var(--rule)}
+.top .wrap{display:flex;align-items:baseline;gap:26px;padding:20px 26px;flex-wrap:wrap}
+.top .me{font-weight:600;font-size:16px;letter-spacing:-.01em;text-decoration:none}
+.top nav{margin-left:auto;display:flex;gap:22px;flex-wrap:wrap}
+.top nav a{font-size:14.5px;color:var(--slate);text-decoration:none}
+.top nav a:hover{color:var(--ontime)}
+.top nav a.on{color:var(--iron)}
+
+main{padding:44px 0 86px}
+h1{font-size:clamp(29px,4.6vw,43px);line-height:1.1;letter-spacing:-.025em;
+font-weight:600;margin:0 0 20px}
+h2{font-size:21px;line-height:1.3;letter-spacing:-.015em;font-weight:600;margin:46px 0 12px}
+h3{font-size:17.5px;font-weight:600;margin:28px 0 8px}
+p,ul,ol{max-width:68ch}
+p{margin:0 0 17px}
+ul,ol{margin:0 0 17px;padding-left:22px}
+li{margin:0 0 6px}
+strong{font-weight:600}
+hr{border:0;border-top:1px solid var(--rule);margin:44px 0}
+blockquote{margin:0 0 17px;padding-left:17px;border-left:2px solid var(--warn);color:var(--slate)}
+code{font-size:15px;background:var(--sheet);padding:1px 5px;border-radius:3px}
+pre{background:var(--sheet);border:1px solid var(--rule);padding:14px 16px;
+overflow-x:auto;font-size:14px;line-height:1.5;margin:0 0 17px;border-radius:3px}
 pre code{background:none;padding:0}
 table{width:100%;border-collapse:collapse;margin:0 0 20px;display:block;overflow-x:auto;
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:15px}
-th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
-th{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
-footer{border-top:1px solid var(--line);margin-top:60px}
-footer .wrap{padding:22px 24px 50px;color:var(--dim);
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:13.5px}
-.lede{font-size:19px;color:var(--dim);margin:0 0 26px}
-.cards{display:grid;gap:16px;margin:26px 0 0}
-.card{border:1px solid var(--line);border-radius:9px;padding:18px 20px;background:var(--card)}
-.card h3{margin:0 0 6px}
-.card p{margin:0 0 10px;font-size:15.5px;color:var(--dim)}
-.card a{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:14.5px;
-text-decoration:none;font-weight:600}
-@media(max-width:560px){h1{font-size:27px}body{font-size:16.5px}nav{gap:14px;margin-left:0;width:100%}}
-</style></head><body><header><div class=wrap><a class=home href='index.html'>Peter Wyatt</a><nav><a href="forecasting.html" style="color:var(--fg)">Forecasting</a><a href="agentic.html">Agentic tooling</a><a href="about.html">About</a></nav></div></header><main><div class=wrap><p class="kicker">Case study</p><h1
+font-size:15px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{color:var(--slate);font-size:14px;font-weight:600}
+
+/* hero: staff photo beside the name, like an ID badge rather than an avatar - */
+.badge{display:flex;gap:20px;align-items:center;margin:0 0 22px}
+.badge img{width:104px;height:104px;flex:0 0 104px;border-radius:2px;
+border:1px solid var(--rule);object-fit:cover}
+.badge h1{margin:0}
+@media(max-width:620px){
+.badge{gap:16px}.badge img{width:74px;height:74px;flex:0 0 74px}
+/* stack label over bar, and let the figures wrap - nowrap in a fixed grid
+   column was pushing the document wider than the screen */
+.grain{grid-template-columns:1fr;gap:4px 0}
+.grain dt{margin:12px 0 2px}
+.grain dd{align-items:flex-start}
+.grain dd{flex-wrap:wrap;gap:8px}
+.num{white-space:normal}
+.track{min-width:0;flex:1 1 55%}
+.top nav{margin-left:0;width:100%;gap:18px;flex-wrap:wrap}
+.artifact{padding:16px 15px}
+}
+
+/* the artifact: real measured error, zero-based ------------------------------ */
+.artifact{margin:26px 0 30px;padding:20px 22px;background:var(--sheet);
+border:1px solid var(--rule);border-radius:3px;max-width:68ch}
+.artifact .what{font-size:15px;font-weight:600;margin:0 0 3px}
+.artifact .how{font-size:14px;color:var(--slate);margin:0 0 18px;max-width:58ch}
+.grain{display:grid;grid-template-columns:auto 1fr;gap:10px 14px;align-items:center;
+font-variant-numeric:tabular-nums}
+.grain dt{font-size:14.5px;color:var(--slate);white-space:nowrap;margin:0}
+.grain dd{margin:0;display:flex;align-items:center;gap:10px}
+.track{flex:1;height:13px;background:var(--steel);border:1px solid var(--rule);
+border-radius:2px;overflow:hidden;min-width:70px}
+.fill{display:block;height:100%;width:var(--w);background:var(--warn);opacity:.85}
+.num{font-size:14px;white-space:nowrap}
+.num b{font-weight:600}
+.num .acc{color:var(--ontime)}
+.reads{font-size:14px;color:var(--slate);margin:16px 0 0;max-width:58ch}
+
+/* the one orchestrated motion: bars draw once on load */
+@media(prefers-reduced-motion:no-preference){
+.fill{animation:draw .7s cubic-bezier(.22,.68,.3,1) both}
+.grain dd:nth-of-type(1) .fill{animation-delay:.12s}
+.grain dd:nth-of-type(2) .fill{animation-delay:.21s}
+.grain dd:nth-of-type(3) .fill{animation-delay:.30s}
+@keyframes draw{from{width:0}to{width:var(--w)}}
+}
+
+/* case-study bands: hairlines, not a card kit ------------------------------- */
+.band{border-top:1px solid var(--rule);padding:26px 0 4px}
+.band h2{margin:0 0 10px}
+.band p{color:var(--slate);font-size:16px}
+.band .go{font-weight:600;font-size:15.5px}
+.honest{color:var(--warn);font-weight:600;font-size:14px;margin:0 0 8px}
+
+/* contact ------------------------------------------------------------------ */
+.reach{border-top:1px solid var(--rule);margin:46px 0 0;padding:26px 0 0}
+.reach h2{margin:0 0 8px}
+.reach .addr{font-size:clamp(19px,2.8vw,25px);font-weight:600;letter-spacing:-.015em;
+display:inline-block;margin:4px 0 6px}
+.reach p{color:var(--slate);font-size:15.5px}
+
+.kicker{font-size:14px;color:var(--slate);font-weight:600;margin:0 0 10px}
+
+/* on the home page each section sits under a hairline, so the two case studies
+   read as bands of a single document rather than a kit of identical cards */
+.home h2{border-top:1px solid var(--rule);padding-top:26px}
+.home .reach h2{border-top:0;padding-top:0}
+
+.foot{border-top:1px solid var(--rule)}
+.foot .wrap{padding:20px 26px 46px;color:var(--slate);font-size:13.5px}
+</style></head><body><div class=top><div class=wrap><a class=me href='index.html'>Peter J. Wyatt</a><nav><a href="forecasting.html" class=on>Forecasting</a><a href="agentic.html">Agentic tooling</a><a href="about.html">About</a></nav></div></div><main class=page><div class=wrap><p class=kicker>Case study</p><h1
 id="forecasting-restaurant-demand-and-proving-the-number-honestly">Forecasting
 restaurant demand, and proving the number honestly</h1>
 <p>Five years in operations at a multi-unit quick-service restaurant
@@ -217,4 +286,4 @@ language models to generate and debug the implementation, read and
 evaluate what comes back, and own the result end to end, which here
 means the method choices, the backtest design, the adversarial review,
 and the decision to delete every claim that did not survive it.</p>
-</div></main><footer><div class=wrap>Peter Wyatt - Restaurant operations leader who builds the software operations run on</div></footer></body></html>
+</div></main><div class=foot><div class=wrap>Restaurant operations leader who builds the software operations run on</div></div></body></html>
