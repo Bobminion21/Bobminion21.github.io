@@ -1,0 +1,211 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=robots content='noindex,nofollow'><title>Building agentic tooling</title><style>
+:root{--bg:#fdfdfc;--fg:#1b1c1e;--dim:#5f6672;--line:#e6e6e3;--accent:#1b4db3;--card:#f5f5f2;--rule:#d8d8d4}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#101216;--fg:#e8e8e6;--dim:#99a0ab;--line:#232730;--accent:#8fb0ff;--card:#171a21;--rule:#2a2f3a}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:17px/1.68 ui-serif,Georgia,"Iowan Old Style","Times New Roman",serif;}
+.wrap{max-width:720px;margin:0 auto;padding:0 24px}
+header{border-bottom:1px solid var(--line);margin-bottom:46px}
+header .wrap{display:flex;align-items:baseline;gap:22px;padding-top:26px;padding-bottom:20px;flex-wrap:wrap}
+header a.home{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-weight:650;
+font-size:17px;color:var(--fg);text-decoration:none;letter-spacing:-.01em}
+nav{margin-left:auto;display:flex;gap:20px}
+nav a{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:14.5px;
+color:var(--dim);text-decoration:none}
+nav a:hover,header a.home:hover{color:var(--accent)}
+main{padding-bottom:90px}
+.kicker{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:12px;
+letter-spacing:.09em;text-transform:uppercase;color:var(--dim);margin:0 0 10px}
+h1{font-size:33px;line-height:1.22;letter-spacing:-.02em;margin:0 0 22px;font-weight:650}
+h2{font-size:21px;margin:40px 0 12px;letter-spacing:-.01em;font-weight:650}
+h3{font-size:17.5px;margin:28px 0 8px;font-weight:650}
+p{margin:0 0 18px}
+ul,ol{margin:0 0 18px;padding-left:24px}
+li{margin:0 0 7px}
+blockquote{margin:0 0 18px;padding-left:18px;border-left:2px solid var(--rule);color:var(--dim)}
+hr{border:0;border-top:1px solid var(--line);margin:40px 0}
+a{color:var(--accent);text-underline-offset:2px}
+strong{font-weight:650}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;background:var(--card);
+padding:1.5px 5px;border-radius:4px}
+pre{background:var(--card);border:1px solid var(--line);border-radius:7px;padding:14px 16px;
+overflow-x:auto;font-size:14px;line-height:1.5;margin:0 0 18px}
+pre code{background:none;padding:0}
+table{width:100%;border-collapse:collapse;margin:0 0 20px;display:block;overflow-x:auto;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:15px}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+footer{border-top:1px solid var(--line);margin-top:60px}
+footer .wrap{padding:22px 24px 50px;color:var(--dim);
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:13.5px}
+.lede{font-size:19px;color:var(--dim);margin:0 0 26px}
+.cards{display:grid;gap:16px;margin:26px 0 0}
+.card{border:1px solid var(--line);border-radius:9px;padding:18px 20px;background:var(--card)}
+.card h3{margin:0 0 6px}
+.card p{margin:0 0 10px;font-size:15.5px;color:var(--dim)}
+.card a{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:14.5px;
+text-decoration:none;font-weight:600}
+@media(max-width:560px){h1{font-size:27px}body{font-size:16.5px}nav{gap:14px;margin-left:0;width:100%}}
+</style></head><body><header><div class=wrap><a class=home href='index.html'>Peter Wyatt</a><nav><a href="forecasting.html">Forecasting</a><a href="agentic.html" style="color:var(--fg)">Agentic tooling</a><a href="about.html">About</a></nav></div></header><main><div class=wrap><p class="kicker">Case study</p><h1 id="the-bug-that-was-lying-for-me">The bug that was lying for
+me</h1>
+<p>In October 2026 I audited the form-filling code in a job-application
+pipeline I had built for myself, and found this:</p>
+<pre><code>} else if (/experience in|experience with|familiar with|proficient|knowledge of|skills in|background in/i.test(text)) {
+  pickValue = &quot;Yes&quot;;
+}</code></pre>
+<p>Any yes-or-no question whose text matched one of those phrases got
+"Yes." Have you worked with this. Are you proficient in that. Do you
+have a background in the other. Yes, every time, with no reference to
+anything true about me. It is a reasonable-looking heuristic, and what
+it actually did was fabricate qualifications, and it had been live
+across a batch of 215 automated submissions before I read it
+closely.</p>
+<p>I deleted it and left this where it had been:</p>
+<pre><code>// DELIBERATELY REMOVED: a blanket rule that answered &quot;Yes&quot; to any
+// /experience in|experience with|familiar with|proficient|.../ question.
+// That claims experience I may not have. It is a fabrication, and it ran
+// on 215 auto-submitted applications. Skill and experience questions must
+// be answered from the fact file or left for a human. DO NOT REINSTATE.</code></pre>
+<p>The replacement is not a cleverer pattern. Those questions are now
+answered from a single canonical fact file or handed to a person. The
+system got slower and less autonomous, and that was the right trade,
+because an autonomous system authorized to speak for you is only as good
+as its worst answer.</p>
+<p>I lead with this because it is what I would want to know about
+someone building agent systems. Every demo works. The question is what
+happens when you discover your own system has been saying things that
+are not true, and whether you built it so that you could discover that
+at all.</p>
+<h2 id="what-the-system-is">What the system is</h2>
+<p>An end-to-end job-application pipeline, built for my own use.
+Eighteen ingest adapters pull from public job APIs, nine of them
+applicant tracking systems and the rest boards, aggregators and feeds,
+each normalizing a different payload shape into one record type with
+fingerprint-based deduplication. The store holds 73,431 postings across
+1,217 companies ingested between April and October 2026, with tables for
+postings, applications, contacts, interviews, events and rate limits. On
+top of that sits a hard-requirement filter, a model-scored fit pass that
+reads the posting against the fact file, a tailoring step that renders a
+resume variant per posting, a factuality gate, a browser-automation form
+filler that extracts a form's fields and plans answers before touching
+them, and an approval loop that delivers each finished package for a
+one-tap approve or reject. Unattended batch submission is switched
+off.</p>
+<h2 id="the-other-two-defects-in-the-same-audit">The other two defects
+in the same audit</h2>
+<p>It skipped every question that already had an answer. That is exactly
+backwards: a pre-filled answer is the one nobody consciously chose. One
+large job board had stored, from some earlier application, that I could
+not provide proof of legal right to work and that I needed sponsorship.
+Both are false and both are automatic rejections. The filler saw the
+questions as answered and moved on. It now reads the current value and
+corrects it when it holds a known-true answer, logging every correction
+it makes.</p>
+<p>And the work-authorization matcher was too narrow while sitting below
+the experience rule in the same if-chain, so common phrasings like
+"proof of your legal right to work" fell past it into the wrong branch.
+It now has a dedicated pattern for authorization language, plus explicit
+branches for age, driver's license and accuracy attestations.</p>
+<p>All three are one failure wearing three coats: a chain of regexes
+that looked like it covered the space, applied at scale, with nothing
+reading the output. The fix was partly better patterns and mostly a
+different posture. Narrow the autonomy, and make the uncertain case stop
+and ask.</p>
+<h2 id="the-guardrails-that-came-out-of-it">The guardrails that came out
+of it</h2>
+<p>A factuality layer now runs before any submission. It checks
+generated text against the canonical fact file for employers that are
+not in it, tools that are not in it, fabricated dates, and a block list
+of claims that are specifically false for me: a CRM I have never used,
+an inflated year count, a language fluency I do not have, a degree
+described as conferred when it is in progress. It is heuristic and its
+own docstring says so. It exists because the generator is a language
+model, and a language model will write a fluent sentence about a tool
+you have never opened.</p>
+<p>The submission guards detect captchas, login walls, forced account
+creation and bot walls, and stop. The code says why: solving or
+bypassing them is against most applicant-tracking and employer terms of
+service and legally risky. The guard also distinguishes a visible
+challenge widget from ambient invisible anti-bot scripts, because
+conflating the two makes the system quit on sites that would have worked
+fine.</p>
+<h2 id="an-8-gb-ceiling-as-a-design-constraint">An 8 GB ceiling as a
+design constraint</h2>
+<p>Separately I run a 4,194-line agentic assistant as a chat bot over
+local models: nine tools, including web search, file operations and
+command execution, behind a structured tool-call protocol that supports
+multi-step reasoning chains and caps out at five iterations per turn. It
+switches between 3B, 7B and 14B parameter models based on available
+RAM.</p>
+<p>That switch is not a flourish. All of this runs on an 8 GB laptop
+that is routinely several gigabytes into swap, and a ceiling that low
+stops being an annoyance and becomes architecture. The forecasting
+engine in my other project has zero runtime dependencies and is a pure
+function. The assistant picks a model that fits instead of the model it
+would prefer. Nothing runs parallel builds. Working inside a ceiling
+taught me more about system design than headroom would have.</p>
+<h2 id="llm-failure-modes-i-have-actually-hit">LLM failure modes I have
+actually hit</h2>
+<p><strong>Hallucination.</strong> Fabricated employers, tools and
+dates. Countered with a canonical fact file plus a gate that blocks, not
+with more emphatic prompting.</p>
+<p><strong>Instruction drift.</strong> A long session quietly stops
+honoring a constraint stated at the top. The durable fix is to move the
+constraint out of the prompt and into code that can fail, because a
+sentence asks and a gate refuses.</p>
+<p><strong>Tool-call errors.</strong> Malformed arguments, a
+plausible-but-wrong path, the same call repeated in a loop. Countered
+with a structured protocol, a hard iteration cap, and never letting a
+failed call be read as a successful one.</p>
+<p><strong>Context overflow.</strong> The interesting failure is not the
+error, it is the silent degradation before it, where the model still
+answers confidently from a truncated view. Countered by retrieving a
+small explicit slice instead of pouring in a repository.</p>
+<p><strong>Persona drift.</strong> A long-running assistant starts
+agreeing with everything and treating its own earlier output as
+established fact. Countered by re-grounding each turn in files rather
+than in the transcript.</p>
+<p>And the one underneath all of them: a system with no step that can
+refuse will ship every bad answer it produces. The form filler had no
+such step. That is why it took a human audit to find a bug that was,
+functionally, lying.</p>
+<h2 id="what-running-the-monitoring-taught-me">What running the
+monitoring taught me</h2>
+<p>Thirty-seven scheduled jobs are loaded on that laptop handling
+ingest, watchdogs, monitoring and digests. Three lessons were paid for
+rather than read:</p>
+<ul>
+<li>Any watchdog that can take a service-affecting action needs a
+per-action cooldown or an already-done sentinel. A disk monitor without
+one restarted a service sixteen times in a row.</li>
+<li>A one-shot design disarms itself permanently. A reply watcher that
+wrote a "handled" marker sat dead for eight days, because nothing
+re-armed it.</li>
+<li>Durable state does not belong in a temp directory that gets
+cleaned.</li>
+</ul>
+<p>I also run Model Context Protocol servers so the assistant reaches
+local data sources through a typed schema instead of scraping around for
+them.</p>
+<h2 id="applicant-tracking-systems-from-the-outside">Applicant tracking
+systems, from the outside</h2>
+<p>Writing nine ATS integrations teaches you the category from the
+customer side. Every one carries a different idea of what a job, a
+posting, a candidate and a question are: different pagination, different
+field naming, different custom-question models, different guarantees
+about what stays stable between fetches. I have read a lot of ATS JSON
+and a lot of ATS DOM, and I have views on which data models made the
+application experience coherent and which made it hostile. That is
+domain knowledge about a product category, from the position of someone
+who had to integrate with it rather than sell it.</p>
+<h2 id="how-this-was-built">How this was built</h2>
+<p>AI-assisted development. I do not write this code from scratch in any
+language. I specify the system, direct language models to generate and
+debug it, read and evaluate what comes back, and own the outcome: the
+architecture, the trade-offs, the audits, and the decisions about what
+the system is allowed to do on my behalf.</p>
+<p>The form-filler defect is the clearest statement of what that is
+worth. The model wrote the regex. The judgment that the regex was a lie
+was mine.</p>
+</div></main><footer><div class=wrap>Peter Wyatt - Restaurant operations leader who builds the software operations run on</div></footer></body></html>
